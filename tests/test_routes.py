@@ -129,7 +129,7 @@ class TestAccountService(TestCase):
         account = self._create_accounts(1)[0]
 
         response = self.client.get(
-            f"{BASE_URL}/{account.id}", 
+            f"{BASE_URL}/{account.id}",
             content_type="application/json"
         )
 
@@ -146,7 +146,7 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_list_accounts(self):
-        account = self._create_accounts(5)
+        self._create_accounts(5)
 
         response = self.client.get(
             f"{BASE_URL}",
