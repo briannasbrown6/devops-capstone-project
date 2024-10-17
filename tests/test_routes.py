@@ -179,3 +179,7 @@ class TestAccountService(TestCase):
 
         updated_account = response2.get_json()
         self.assertEqual(updated_account["name"], "update")
+
+    def test_method_not_allowed(self):
+        response = self.client.delete(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
