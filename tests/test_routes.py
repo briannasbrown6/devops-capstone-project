@@ -188,7 +188,7 @@ class TestAccountService(TestCase):
         response = self.client.delete(BASE_URL)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_security(self):
+    def test_security_headers(self):
         response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -197,6 +197,17 @@ class TestAccountService(TestCase):
             'X-Content-Type-Options': 'nosniff',
             'Content-Security-Policy': 'default-src \'self\'; object-src \'none\'',
             'Referrer-Policy': 'strict-origin-when-cross-origin'
+        }
+
+        for key, value in headers.items():
+            self.assertEqual(response.headers.get(key), value)
+
+    def test_cors_policy(self):
+        response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        headers = {
+            'Access-Control-Allow-Origin': '*'
         }
 
         for key, value in headers.items():
